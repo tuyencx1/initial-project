@@ -2,6 +2,7 @@ package com.example.__7.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/add")
-    public ResponsiData<User> addUser(@RequestBody UserResquest resquest) {
+    public ResponsiData<User> addUser(@RequestBody @Valid UserResquest resquest) {
         ResponsiData responsiData = new ResponsiData();
         responsiData.setCode("200 OK");
         responsiData.setData(userService.CreateUser(resquest));
@@ -44,7 +45,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable String id) {
-        return userService.GetFinfById(id);
+        return userService.GetFindById(id);
     }
 
     @PutMapping("/update/{id}")

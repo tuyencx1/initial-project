@@ -1,13 +1,15 @@
 package com.example.__7.service;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import com.example.__7.dto.resquest.PermissionResquest;
 import com.example.__7.entity.Permission;
 import com.example.__7.reponsition.PermissionReponsitory;
+
 
 @Service
 public class PermissionService {
@@ -25,8 +27,9 @@ public class PermissionService {
         }
     }
 
-    public List<Permission> getAllPermissions() {
-        return permissionReponsitory.findAll();
+    public Page<Permission> getAllPermissions(Integer page) {
+        Pageable pageable = PageRequest.of(page, 2);
+        return permissionReponsitory.findAll(pageable);
     }
 
     public void deletePermission(String permissionName) {

@@ -2,7 +2,7 @@ package com.example.__7.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,18 +20,12 @@ import com.example.__7.reponsition.UserReponsitory;
 import lombok.val;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserReponsitory userRepon;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private RoleReponsitory roleReponsitory;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserReponsitory userRepon;
+    private final UserMapper userMapper;
+    private final RoleReponsitory roleReponsitory;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponse CreateUser(UserResquest resquest) {
 
@@ -52,13 +46,13 @@ public class UserService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public User GetFinfById(String id) {
+    public User GetFindById(String id) {
         return userRepon.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
     }
 
     @PostAuthorize("returnObject.username == authentication.name") // tk ai người đó mới sửa đc
     public UserResponse UpdateUser(String id, UserResquest userCreatDto) {
-        User user = GetFinfById(id);
+        User user = GetFindById(id);
         userMapper.updateUser(user, userCreatDto);
         user.setPassword(passwordEncoder.encode(userCreatDto.getPassword()));
         List<Role> roles = roleReponsitory.findAllById(userCreatDto.getRoles());

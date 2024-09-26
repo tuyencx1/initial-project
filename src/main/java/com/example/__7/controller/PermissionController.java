@@ -1,8 +1,8 @@
 package com.example.__7.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.__7.dto.resquest.PermissionResquest;
@@ -24,8 +24,8 @@ public class PermissionController {
     }
 
     @GetMapping("/")
-    public List<Permission> getAllPermission() {
-        return permissionService.getAllPermissions();
+    public Page<Permission> getAllPermission(@RequestParam(defaultValue = "0") Integer page) {
+        return permissionService.getAllPermissions(page);
     }
 
     @DeleteMapping("/delete/{id}")

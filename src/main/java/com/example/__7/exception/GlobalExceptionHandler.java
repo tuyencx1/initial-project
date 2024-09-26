@@ -18,8 +18,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity<ResponsiData> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception) {
-        ResponsiData responsiData = new ResponsiData();
+    ResponseEntity<ResponsiData<?>> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception) {
+        ResponsiData<?> responsiData = new ResponsiData<>();
         responsiData.setCode("1002");
         responsiData.setMessage(exception.getFieldError().getDefaultMessage());
         return ResponseEntity.badRequest().body(responsiData);

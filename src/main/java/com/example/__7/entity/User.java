@@ -4,6 +4,8 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Setter
@@ -18,6 +20,7 @@ public class User {
     private String id;
 
     private String username;
+
     private String password;
     private String name;
 

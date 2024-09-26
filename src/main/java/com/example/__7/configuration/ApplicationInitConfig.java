@@ -1,13 +1,14 @@
 package com.example.__7.configuration;
 
-import java.util.HashSet;
+import java.util.List;
 
+import com.example.__7.entity.Role;
+import com.example.__7.reponsition.RoleReponsitory;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.example.__7.entity.RoleEnum;
 import com.example.__7.entity.User;
 import com.example.__7.reponsition.UserReponsitory;
 
@@ -25,16 +26,16 @@ public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder;
 
     @Bean
-    ApplicationRunner applicationRunner(UserReponsitory userReponsitory) {
+    ApplicationRunner applicationRunner(UserReponsitory userReponsitory, RoleReponsitory roleReponsitory) {
         return args -> {
             if (userReponsitory.findByUsername("admin").isEmpty()) {
-                var roles = new HashSet<String>();
-                roles.add(RoleEnum.ADMIN.name());
+
+                List<Role> roles = roleReponsitory.findByName("ADMIN");
 
                 User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
-                        //                        .roles(roles)
+                        .roles(roles)
                         .build();
                 userReponsitory.save(user);
                 log.warn("User admin has been created with account and password: admin");
